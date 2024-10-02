@@ -1,0 +1,33 @@
+import { randomUUID } from "node:crypto";
+import { ValueObject } from "../value-object";
+
+export class ID extends ValueObject {
+    readonly id: string
+    
+    constructor(value?: string) {
+        super();
+        this.id = value || randomUUID().toString();
+        ID.isValid(this.id);
+    }
+
+    static from(value: string): ID {
+        ID.isValid(value);
+        return new ID(value);
+    }
+
+    static generate(): ID {
+        return new ID(randomUUID().toString());
+    }
+
+    static isValid(uuid: string): boolean {
+        const regex = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+        if(!regex.test(uuid)) throw new InvalidIDError();
+        return true;
+    }
+}
+
+export class InvalidIDError extends Error {
+    constructor() {
+        super("The provided ID is invalid");
+    }
+}
