@@ -1,0 +1,11 @@
+services:
+  app: 
+    image: node:20.5.1-slim
+    container_name: app
+    working_dir: /home/node/app
+    command: sh -c "npm install && tail -f /dev/null"
+    tty: true
+    ports:
+      - 3000:3000
+    volumes: 
+      - .:/home/node/app
