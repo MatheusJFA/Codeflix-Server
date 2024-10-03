@@ -7,11 +7,9 @@ export class ID extends ValueObject {
     constructor(value?: string) {
         super();
         this.id = value || randomUUID().toString();
-        ID.isValid(this.id);
     }
 
     static from(value: string): ID {
-        ID.isValid(value);
         return new ID(value);
     }
 
