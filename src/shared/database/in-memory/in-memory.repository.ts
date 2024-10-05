@@ -35,7 +35,7 @@ export abstract class InMemoryRepository<E extends Entity, EntityID extends Valu
     
     async findById(id: EntityID): Promise<E | null> {
         const item = this.entities.find((e) => e.get_id().equals(id));
-        return Promise.resolve(item || null);
+        return Promise.resolve(item ?? null);
     }
     
     abstract getEntity(): new (...args: any[]) => E;
