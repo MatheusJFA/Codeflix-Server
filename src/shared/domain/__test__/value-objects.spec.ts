@@ -13,13 +13,21 @@ class ComplexValueObject extends ValueObject {
 }
 
 describe('ValueObject', () => {
+    const testValueObjectGetSpy = jest.spyOn(TestValueObject.prototype, 'getValue');
+    const testValueObjectEqualsSpy = jest.spyOn(TestValueObject.prototype, 'equals');
+
+    const ComplexValueObjectGetSpy = jest.spyOn(ComplexValueObject.prototype, 'getValue');
+    const ComplexValueObjectEqualsSpy = jest.spyOn(ComplexValueObject.prototype, 'equals');
+    
     test('Should return the value', () => {
         // Arrange
         const value = 'test';
         const valueObject = new TestValueObject(value);
 
         // Act and Assert
-        expect(valueObject.value).toBe(value);
+        expect(valueObject.getValue().value).toBe(value);
+        expect(testValueObjectGetSpy).toHaveBeenCalled();
+        expect(testValueObjectGetSpy).toHaveBeenCalledTimes(1);
     });
 
     test('Should return true if the value is the same', () => {
@@ -29,6 +37,8 @@ describe('ValueObject', () => {
         const otherValueObject = new TestValueObject(value);
         // Act and Assert
         expect(valueObject.equals(otherValueObject)).toBe(true);
+        expect(testValueObjectEqualsSpy).toHaveBeenCalled();
+        expect(testValueObjectEqualsSpy).toHaveBeenCalledTimes(1);
     });
 
     test('Should return false if the value is different', () => {
@@ -39,6 +49,8 @@ describe('ValueObject', () => {
         
         // Act and Assert
         expect(valueObject.equals(otherValueObject)).toBe(false);
+        expect(testValueObjectEqualsSpy).toHaveBeenCalled();
+        expect(testValueObjectEqualsSpy).toHaveBeenCalledTimes(1);
     });
 
     test('Should return false if comparing with null object', () => {
@@ -48,6 +60,8 @@ describe('ValueObject', () => {
 
         // Act and Assert
         expect(valueObject.equals(null as any)).toBe(false);
+        expect(testValueObjectEqualsSpy).toHaveBeenCalled();
+        expect(testValueObjectEqualsSpy).toHaveBeenCalledTimes(1);
     });
 
     test('Should return false if comparing with undefined object', () => {
@@ -57,6 +71,20 @@ describe('ValueObject', () => {
         
         // Act and Assert
         expect(valueObject.equals(undefined as any)).toBe(false);
+        expect(testValueObjectEqualsSpy).toHaveBeenCalled();
+        expect(testValueObjectEqualsSpy).toHaveBeenCalledTimes(1);
+    });
+
+    test('Should return false if comparing with different object', () => {
+        // Arrange
+        const value = 'test';
+        const valueObject = new TestValueObject(value);
+        const otherValueObject = new ComplexValueObject({ name: 'test', age: 20 });
+
+        // Act and Assert
+        expect(valueObject.equals(otherValueObject)).toBe(false);
+        expect(testValueObjectEqualsSpy).toHaveBeenCalled();
+        expect(testValueObjectEqualsSpy).toHaveBeenCalledTimes(1);
     });
 
     test("Should return the value of the complex value", () => {
@@ -64,9 +92,13 @@ describe('ValueObject', () => {
         const value = { name: 'test', age: 20 };
         const valueObject = new ComplexValueObject(value);
 
-        // Act and Assert
-        expect(valueObject.getValue().value.age).toBe(20);
-        expect(valueObject.getValue().value.name).toBe('test');
+        const result = valueObject.getValue();
+
+        // Act && Assert
+        expect(result.value.name).toEqual(value.name);
+        expect(result.value.age).toEqual(value.age);
+        expect(ComplexValueObjectGetSpy).toHaveBeenCalled();
+        expect(ComplexValueObjectGetSpy).toHaveBeenCalledTimes(1);
     });
 
     test('Should return true if the complex value is the same', () => {
@@ -76,6 +108,8 @@ describe('ValueObject', () => {
 
         // Act and Assert
         expect(valueObject.equals(otherValueObject)).toBe(true);
+        expect(ComplexValueObjectEqualsSpy).toHaveBeenCalled();
+        expect(ComplexValueObjectEqualsSpy).toHaveBeenCalledTimes(1);
     });
 
     test('Should return false if at least one value of the complex value is different', () => {
@@ -85,5 +119,8 @@ describe('ValueObject', () => {
 
         // Act and Assert
         expect(valueObject.equals(otherValueObject)).toBe(false);
+        expect(ComplexValueObjectEqualsSpy).toHaveBeenCalled();
+        expect(ComplexValueObjectEqualsSpy).toHaveBeenCalledTimes(1);
+
     });
 });

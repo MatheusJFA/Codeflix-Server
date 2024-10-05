@@ -20,7 +20,7 @@ interface CategoryCreateCommand {
     is_active: boolean;
 }
 
-export class Category extends Entity <Category>{
+export class Category extends Entity{
     id: ID;
     name: string;
     description?: string | null;
