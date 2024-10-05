@@ -1,4 +1,5 @@
-import {ID, InvalidIDError} from "../value-objects/id.vo";
+import { InvalidIDError } from "../../errors/invalidID.error";
+import {ID} from "../value-objects/id.vo";
 
 describe("ID", () => {
     const validateSpy = jest.spyOn(ID, "isValid");
