@@ -1,10 +1,9 @@
 import { ErrorList } from "./errorList";
 import { ValueObject } from "./value-object";
-import { Either } from "./either";
 
-export abstract class Entity<T> {
+export abstract class Entity {
     abstract toJSON(): Object;
     abstract get_id(): ValueObject;
-    abstract equals(entity: T): boolean;
-    abstract validate(): ErrorList | T;
+    abstract equals(entity: any): boolean;
+    abstract validate(): ErrorList | any;
 }
